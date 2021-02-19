@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninja Gold</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <style>
+        .activitydiv{
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .activity-txt{
+            margin-bottom: -20px;
+        }
+        .cards{
+            display: flex;
+            justify-content: space-around;
+            margin: 60px auto 60px auto
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Ninja Gold: {{request.session.gold}} </h1>
+        <h3 class="text-center">Instructions: Click any of buttons in the square below to earn gold!</h3>
+    </div>
+    <div class="cards">
+        <div class="card text-light bg-dark" style="width: 18rem;">
+            <div class="card-body">
+                <h4 class="card-title">Farm</h4>
+                <p class="card-text">Earns 10-20 gold</p>
+                <form class="text-center" action="/process_money" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="findgold" value="farm">
+                    <input type='submit' value="Find Gold!" class="btn btn-warning" role="button">
+                </form>
+            </div>
+        </div>
+        <div class="card text-light bg-dark" style="width: 18rem;">
+            <div class="card-body">
+                <h4 class="card-title">Cave</h4>
+                <p class="card-text">Earns 5-10 gold</p>
+                <form class="text-center" action="/process_money" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="findgold" value="cave">
+                    <input type='submit' value="Find Gold!" class="btn btn-warning" role="button">
+                </form>
+            </div>
+        </div>
+        <div class="card text-light bg-dark" style="width: 18rem;">
+            <div class="card-body">
+                <h4 class="card-title">House</h4>
+                <p class="card-text">Earns 2-5 gold</p>
+                <form class="text-center" action="/process_money" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="findgold" value="house">
+                    <input type='submit' value="Find Gold!" class="btn btn-warning" role="button">
+                </form>
+            </div>
+        </div>
+        <div class="card text-light bg-dark" style="width: 18rem;">
+            <div class="card-body">
+                <h4 class="card-title">Casino</h4>
+                <p class="card-text">Earns/Takes 1-50 gold</p>
+                <form class="text-center" action="/process_money" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="findgold" value="casino">
+                    <input type='submit' value="Find Gold!" class="btn btn-warning" role="button">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <a href="/reset" class="btn btn-secondary" role="button">Reset</a>
+        <h2>Activity:</h2>
+        <div class="activitydiv">
+            {% for activity in request.session.values %}
+            <p class="activity-txt">{{activity}}</p><br>
+            {%endfor%}
+        </div>
+    </div>
+</body>
+</html>
